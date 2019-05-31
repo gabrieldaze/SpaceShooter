@@ -1,11 +1,20 @@
 /* Space Shooter C++ Game */
 
-#include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
 #include <iostream> // for std::cout
 #include <vector>   // for std::vector
 #include <ctime>    // for time()
 #include <cstdlib>  // for srand() and rand()
+#include <stdio.h>  // for FILENAME_MAX
+
+#ifdef WINDOWS
+ #include <direct.h>
+ #define GetCurrentDir _getcwd
+#else
+ #include <unistd.h>
+ #define GetCurrentDir getcwd
+#endif
+
+#include <SFML/Graphics.hpp>
 
 #include "engine/Entity.cpp"
 #include "engine/Player.cpp"
@@ -43,6 +52,12 @@ Enemy* createEnemy(std::string imageFile, int x, int y, double speed)
 
 int main()
 {
+  // Gets the current working directory
+  char currentPath[FILENAME_MAX];
+  GetCurrentDir(currentPath, sizeof(currentPath));
+  const std::string CURRENT_DIR = currentPath;
+  std::cout << "Current working directory: " << CURRENT_DIR << std::endl;
+
   // Window width and height
   const int WIDTH = 800;
   const int HEIGHT = 600;
@@ -69,19 +84,6 @@ int main()
   // List of enemies
   std::vector <Enemy*> enemies;
 
-  // Loading projectile launch sfx to buffer
-  // if (!mixer.setFireSfx("assets/sfx/Laser_Shoot.wav")) window.close();
-  // sf::SoundBuffer fireSfxBuffer;
-  // sf::Sound fireSfx;
-  // if (fireSfxBuffer.loadFromFile("assets/sfx/Laser_Shoot.wav")) fireSfx.setBuffer(fireSfxBuffer);
-  // fireSfx.setVolume(20.0f);
-
-  // Loading explosion launch sfx to buffer
-  // sf::SoundBuffer explosionSfxBuffer;
-  // sf::Sound explosionSfx;
-  // if (explosionSfxBuffer.loadFromFile("assets/sfx/Explosion.wav")) explosionSfx.setBuffer(explosionSfxBuffer);
-  // explosionSfx.setVolume(25.0f);
-
   // Creates the main window
   sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Space Shooter");
 
@@ -92,19 +94,19 @@ int main()
   Mixer mixer;
 
   // Setting the fire sound effect
-  if (!mixer.setFireSfx("assets/sfx/Laser_Shoot.wav", 50.0f)) window.close();
+  if (!mixer.setFireSfx(CURRENT_DIR + "/assets/sfx/Laser_Shoot.wav", 50.0f)) window.close();
 
   // Setting the explosion sound effect
-  if (!mixer.setExplosionSfx("assets/sfx/Explosion.wav", 50.0f)) window.close();
+  if (!mixer.setExplosionSfx(CURRENT_DIR + "/assets/sfx/Explosion.wav", 50.0f)) window.close();
 
   // Setting the background music
-  if (!mixer.setBGM("assets/bgm/astrobdsm.ogg", 30.0f)) window.close();
+  if (!mixer.setBGM(CURRENT_DIR + "/assets/bgm/astrobdsm.ogg", 30.0f)) window.close();
 
   // Starts playing the background music
   mixer.getBGMusic().play();
   
   // Creates new player object
-  Player player("assets/sprite/spaceship.png", 0, 0);
+  Player player(CURRENT_DIR + "/assets/sprite/spaceship.png", 0, 0);
 
   // Sets sprite smoothness and scale
   player.getTexture().setSmooth(false);
@@ -141,7 +143,7 @@ int main()
         if (event.key.code == sf::Keyboard::Left) LEFT_KEY = false; 
         if (event.key.code == sf::Keyboard::Right) RIGHT_KEY = false; 
         if (event.key.code == sf::Keyboard::Space) { 
-          projectiles.push_back(createProjectile("assets/sprite/projectile.png",
+          projectiles.push_back(createProjectile(CURRENT_DIR + "/assets/sprite/projectile.png",
                                                  player.position.x + player.width / 4,
                                                  player.position.y, 3));
           //fireSfx.play();
@@ -189,7 +191,7 @@ int main()
       int yPos = 20;
       std::cout << "Spawning enemy at xPos: " << xPos << std::endl;
       if (xPos < 50 || xPos > 750) std::cout << "Spawning off the limits at: " << xPos << std::endl;
-      enemies.push_back(createEnemy("assets/sprite/enemy.png", xPos, yPos, 1));
+      enemies.push_back(createEnemy(CURRENT_DIR + "/assets/sprite/enemy.png", xPos, yPos, 1));
     } else {
       FRAME_COUNTER += 1;
     }
