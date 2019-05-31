@@ -1,12 +1,17 @@
 /* Space Shooter C++ Game */
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream> // for std::cout
 #include <vector>   // for std::vector
+#include <ctime>    // for time()
+#include <cstdlib>  // for srand() and rand()
 
 #include "engine/Entity.cpp"
 #include "engine/Player.cpp"
 #include "engine/Projectile.cpp"
+#include "engine/Enemy.cpp"
+#include "engine/Mixer.cpp"
 
 Projectile* createProjectile(std::string imageFile, int x, int y)
 {
@@ -15,11 +20,36 @@ Projectile* createProjectile(std::string imageFile, int x, int y)
   return p;
 }
 
+Projectile* createProjectile(std::string imageFile, int x, int y, double speed)
+{
+  Projectile* p = new Projectile(imageFile, x, y, speed);
+  p->getTexture().setSmooth(false);
+  return p;
+}
+
+Enemy* createEnemy(std::string imageFile, int x, int y)
+{
+  Enemy* e = new Enemy(imageFile, x, y);
+  e->getTexture().setSmooth(false);
+  return e;
+}
+
+Enemy* createEnemy(std::string imageFile, int x, int y, double speed)
+{
+  Enemy* e = new Enemy(imageFile, x, y, speed);
+  e->getTexture().setSmooth(false);
+  return e;
+}
+
 int main()
 {
   // Window width and height
   const int WIDTH = 800;
   const int HEIGHT = 600;
+
+  // Enemy spawn delay
+  const int ENEMY_DELAY = 120;
+  int FRAME_COUNTER = 0;
 
   // Player movement values
   double ySpeed = 0;
@@ -36,14 +66,45 @@ int main()
   // List of projectiles
   std::vector <Projectile*> projectiles;
 
+  // List of enemies
+  std::vector <Enemy*> enemies;
+
+  // Loading projectile launch sfx to buffer
+  // if (!mixer.setFireSfx("assets/sfx/Laser_Shoot.wav")) window.close();
+  // sf::SoundBuffer fireSfxBuffer;
+  // sf::Sound fireSfx;
+  // if (fireSfxBuffer.loadFromFile("assets/sfx/Laser_Shoot.wav")) fireSfx.setBuffer(fireSfxBuffer);
+  // fireSfx.setVolume(20.0f);
+
+  // Loading explosion launch sfx to buffer
+  // sf::SoundBuffer explosionSfxBuffer;
+  // sf::Sound explosionSfx;
+  // if (explosionSfxBuffer.loadFromFile("assets/sfx/Explosion.wav")) explosionSfx.setBuffer(explosionSfxBuffer);
+  // explosionSfx.setVolume(25.0f);
+
   // Creates the main window
   sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Space Shooter");
 
   // Sets framerate limit to 60 frames per second
   window.setFramerateLimit(60);
+
+  // Initializing the mixer class
+  Mixer mixer;
+
+  // Setting the fire sound effect
+  if (!mixer.setFireSfx("assets/sfx/Laser_Shoot.wav", 50.0f)) window.close();
+
+  // Setting the explosion sound effect
+  if (!mixer.setExplosionSfx("assets/sfx/Explosion.wav", 50.0f)) window.close();
+
+  // Setting the background music
+  if (!mixer.setBGM("assets/bgm/astrobdsm.ogg", 30.0f)) window.close();
+
+  // Starts playing the background music
+  mixer.getBGMusic().play();
   
   // Creates new player object
-  Player player("spaceship.png", 0, 0);
+  Player player("assets/sprite/spaceship.png", 0, 0);
 
   // Sets sprite smoothness and scale
   player.getTexture().setSmooth(false);
@@ -52,6 +113,9 @@ int main()
   // Sets player position to center of the screen
   player.setPosition(WIDTH / 2 - player.width / 4, 
                      HEIGHT / 2 - player.height / 4);
+
+  // Starts the randomizer
+  srand(time(0));
 
   // Starting game loop
   while (window.isOpen()) {
@@ -77,9 +141,11 @@ int main()
         if (event.key.code == sf::Keyboard::Left) LEFT_KEY = false; 
         if (event.key.code == sf::Keyboard::Right) RIGHT_KEY = false; 
         if (event.key.code == sf::Keyboard::Space) { 
-          projectiles.push_back(createProjectile("projectile.png",
+          projectiles.push_back(createProjectile("assets/sprite/projectile.png",
                                                  player.position.x + player.width / 4,
-                                                 player.position.y));
+                                                 player.position.y, 3));
+          //fireSfx.play();
+          mixer.getFireSfx().play();
         }
       }
     }
@@ -112,13 +178,52 @@ int main()
     // Clear screen
     window.clear();
 
-    // Draw the sprite
-    window.draw(player.getSprite());
-
+    // Draw the player
     player.draw(window);
+
+    // Check if the frame counter has reached the enemy delay
+    // before spawning an enemy
+    if (FRAME_COUNTER >= ENEMY_DELAY) {
+      FRAME_COUNTER = 0;
+      int xPos = (rand() % (WIDTH - 100)) + 50;
+      int yPos = 20;
+      std::cout << "Spawning enemy at xPos: " << xPos << std::endl;
+      if (xPos < 50 || xPos > 750) std::cout << "Spawning off the limits at: " << xPos << std::endl;
+      enemies.push_back(createEnemy("assets/sprite/enemy.png", xPos, yPos, 1));
+    } else {
+      FRAME_COUNTER += 1;
+    }
     
     // Iterate through the projectile vector and draw each projectile
-    for (Projectile* p : projectiles) { p->update(3); p->draw(window); }
+    for (int i = 0; i < projectiles.size(); i++) {
+      projectiles[i]->update();
+      for (int j = 0; j < enemies.size(); j++) {
+        if (projectiles[i]->isColiding(*enemies[j])) {
+          projectiles[i]->setAlive(false);
+          enemies[j]->setAlive(false);
+          // explosionSfx.play();
+          mixer.getExplosionSfx().play();
+        }
+      }
+      if (projectiles[i]->isAlive()) {
+        projectiles[i]->draw(window);
+      } else {
+        projectiles[i] = nullptr;
+        projectiles.erase(projectiles.begin() + i);
+      }
+    }
+
+    // Iterate through the enemy vector and draw each enemy
+    for (int i = 0; i < enemies.size(); i++) {
+      enemies[i]->update();
+      if (enemies[i]->position.y >= HEIGHT - enemies[i]->getSize().height) enemies[i]->setAlive(false);
+      if (enemies[i]->isAlive()) {
+        enemies[i]->draw(window);
+      } else {
+        enemies[i] = nullptr;
+        enemies.erase(enemies.begin() + i);
+      }
+    }
 
     // Update the window
     window.display();

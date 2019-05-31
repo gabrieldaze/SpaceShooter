@@ -37,3 +37,15 @@ void Entity::draw(sf::RenderWindow& window)
 {
   window.draw(this->sprite);
 }
+
+bool Entity::isColiding(Entity& e)
+{
+  if (this->position.x >= e.position.x &&
+      this->position.x <= e.position.x + e.getSize().width &&
+      this->position.y >= e.position.y &&
+      this->position.y <= e.position.y + e.getSize().height) {
+    return true;
+  } else {
+    return false;
+  }
+}

@@ -6,9 +6,11 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
-struct Position
+class Position
 {
+public:
   int x, y;
+  bool operator == (Position& p) { return x == p.x && y == p.y; }
 };
 
 class Entity
@@ -44,6 +46,9 @@ class Entity
 
   // Draw the entity through a window reference
   void draw(sf::RenderWindow& window);
+
+  // Checks if the entity is colliding with other entity
+  bool isColiding(Entity& e);
 
  protected:
   sf::Texture texture;
