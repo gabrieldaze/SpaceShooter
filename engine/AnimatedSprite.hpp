@@ -12,6 +12,7 @@ public:
   AnimatedSprite(Animation a) : animation(a), currentSpriteIndex(0), currentSpriteFrame(0)
   {
     this->sprite.setTexture(this->animation.getFrames()[0].getTexture());
+    // this->sprite.setScale(sf::Vector2f(2.0f, 2.0f));
   }
 
   // Gets the reference for the animation

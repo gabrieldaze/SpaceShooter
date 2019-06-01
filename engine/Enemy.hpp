@@ -9,9 +9,10 @@ class Enemy : public Entity
 {
 
 public:
-  Enemy(std::string imageFile, int xPos, int yPos) : Entity(imageFile, xPos, yPos), alive(true), speed(0) {}
-
-  Enemy(std::string imageFile, int xPos, int yPos, double s) : Entity(imageFile, xPos, yPos), alive(true), speed(s) {}
+  Enemy(std::string imageFile, int x, int y) : Entity(imageFile, x, y), alive(true), speed(0) {}
+  Enemy(std::string imageFile, int x, int y, double s) : Entity(imageFile, x, y), alive(true), speed(s) {}
+  Enemy(std::vector<SpriteFrame> spriteList, int x, int y): Entity(spriteList, x, y), alive(true), speed(0) {}
+  Enemy(std::vector<SpriteFrame> spriteList, int x, int y, double s): Entity(spriteList, x, y), alive(true), speed(s) {}
 
   // Gets the enemy current status
   bool isAlive() { return this->alive; }

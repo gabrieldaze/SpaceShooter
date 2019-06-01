@@ -20,6 +20,7 @@
 #include "engine/Player.cpp"
 #include "engine/Projectile.cpp"
 #include "engine/Enemy.cpp"
+#include "engine/TemporaryEntity.cpp"
 #include "engine/Mixer.cpp"
 #include "engine/AnimatedSprite.cpp"
 #include "engine/Animation.cpp"
@@ -37,6 +38,18 @@ Projectile* createProjectile(std::string imageFile, int x, int y, double speed)
   return p;
 }
 
+Projectile* createProjectile(std::vector<SpriteFrame> spriteList, int x, int y)
+{
+  Projectile* p = new Projectile(spriteList, x, y);
+  return p;
+}
+
+Projectile* createProjectile(std::vector<SpriteFrame> spriteList, int x, int y, double speed)
+{
+  Projectile* p = new Projectile(spriteList, x, y, speed);
+  return p;
+}
+
 Enemy* createEnemy(std::string imageFile, int x, int y)
 {
   Enemy* e = new Enemy(imageFile, x, y);
@@ -46,6 +59,24 @@ Enemy* createEnemy(std::string imageFile, int x, int y)
 Enemy* createEnemy(std::string imageFile, int x, int y, double speed)
 {
   Enemy* e = new Enemy(imageFile, x, y, speed);
+  return e;
+}
+
+Enemy* createEnemy(std::vector<SpriteFrame> spriteList, int x, int y)
+{
+  Enemy* e = new Enemy(spriteList, x, y);
+  return e;
+}
+
+Enemy* createEnemy(std::vector<SpriteFrame> spriteList, int x, int y, double speed)
+{
+  Enemy* e = new Enemy(spriteList, x, y, speed);
+  return e;
+}
+
+TemporaryEntity* createExplosion(std::vector<SpriteFrame> spriteList, int x, int y)
+{
+  TemporaryEntity* e = new TemporaryEntity(spriteList, x, y);
   return e;
 }
 
@@ -83,6 +114,9 @@ int main()
   // List of enemies
   std::vector <Enemy*> enemies;
 
+  // List of explosions
+  std::vector <TemporaryEntity*> explosions;
+
   // Creates the main window
   sf::RenderWindow window(sf::VideoMode(WIDTH, HEIGHT), "Space Shooter");
 
@@ -104,19 +138,48 @@ int main()
   // Starts playing the background music
   mixer.getBGMusic().play();
 
-  std::vector<SpriteFrame> spriteList;
-  spriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/spaceship.png", 120));
-  spriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/enemy.png", 60));
-  spriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/spaceship.png", 120));
-  spriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/enemy.png", 60));
-  spriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/spaceship.png", 120));
-  spriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/enemy.png", 60));
-  spriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/spaceship.png", 120));
-  spriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/enemy.png", 60));
+  std::vector<SpriteFrame> playerSpriteList;
+  playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player00.png", 5));
+  playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player01.png", 5));
+  playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player02.png", 5));
+  playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player03.png", 5));
+  playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player04.png", 5));
+  playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player05.png", 5));
+  playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player06.png", 5));
+  playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player07.png", 5));
+  playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player08.png", 5));
+  playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player09.png", 5));
+
+  std::vector<SpriteFrame> enemySmallSpriteList;
+  enemySmallSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/enemy/enemySmall00.png", 5));
+  enemySmallSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/enemy/enemySmall01.png", 5));
+
+  std::vector<SpriteFrame> enemyMediumSpriteList;
+  enemyMediumSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/enemy/enemyMedium00.png", 5));
+  enemyMediumSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/enemy/enemyMedium01.png", 5));
+
+  std::vector<SpriteFrame> enemyBigSpriteList;
+  enemyBigSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/enemy/enemyBig00.png", 5));
+  enemyBigSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/enemy/enemyBig01.png", 5));
+
+  std::vector<SpriteFrame> regularProjectileSpriteList;
+  regularProjectileSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/projectile/regular00.png", 5));
+  regularProjectileSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/projectile/regular01.png", 5));
+
+  std::vector<SpriteFrame> roundedProjectileSpriteList;
+  roundedProjectileSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/projectile/rounded00.png", 5));
+  roundedProjectileSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/projectile/rounded01.png", 5));
+
+  std::vector<SpriteFrame> explosionSpriteList;
+  explosionSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/explosion/explosion00.png", 3));
+  explosionSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/explosion/explosion01.png", 3));
+  explosionSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/explosion/explosion02.png", 3));
+  explosionSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/explosion/explosion03.png", 3));
+  explosionSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/explosion/explosion04.png", 3));
 
   // Creates new player object
   // Player player(CURRENT_DIR + "/assets/sprite/spaceship.png", 0, 0);
-  Player player(spriteList, 0, 0);
+  Player player(playerSpriteList, 0, 0);
 
   // Sets sprite smoothness and scale
   // player.getTexture().setSmooth(false);
@@ -153,7 +216,7 @@ int main()
         if (event.key.code == sf::Keyboard::Left) LEFT_KEY = false;
         if (event.key.code == sf::Keyboard::Right) RIGHT_KEY = false;
         if (event.key.code == sf::Keyboard::Space) {
-          projectiles.push_back(createProjectile(CURRENT_DIR + "/assets/sprite/projectile.png",
+          projectiles.push_back(createProjectile(regularProjectileSpriteList,
                                                  player.position.x + player.width / 4,
                                                  player.position.y, 3));
           //fireSfx.play();
@@ -201,7 +264,7 @@ int main()
       int yPos = 20;
       // std::cout << "Spawning enemy at xPos: " << xPos << std::endl;
       // if (xPos < 50 || xPos > 750) std::cout << "Spawning off the limits at: " << xPos << std::endl;
-      // enemies.push_back(createEnemy(CURRENT_DIR + "/assets/sprite/enemy.png", xPos, yPos, 1));
+      enemies.push_back(createEnemy(enemyBigSpriteList, xPos, yPos, 1));
     } else {
       FRAME_COUNTER += 1;
     }
@@ -213,7 +276,7 @@ int main()
         if (projectiles[i]->isColiding(*enemies[j])) {
           projectiles[i]->setAlive(false);
           enemies[j]->setAlive(false);
-          // explosionSfx.play();
+          explosions.push_back(createExplosion(explosionSpriteList, projectiles[i]->position.x, projectiles[i]->position.y));
           mixer.getExplosionSfx().play();
         }
       }
@@ -234,6 +297,17 @@ int main()
       } else {
         enemies[i] = nullptr;
         enemies.erase(enemies.begin() + i);
+      }
+    }
+
+    // Iterate through the explosion vector and draw
+    for (int i = 0; i < explosions.size(); i++) {
+      explosions[i]->update();
+      if (explosions[i]->isAlive()) {
+        explosions[i]->draw(window);
+      } else {
+        explosions[i] = nullptr;
+        explosions.erase(explosions.begin() + i);
       }
     }
 
