@@ -92,7 +92,9 @@ void Entity::setSize(double width, double height)
 
 void Entity::draw(sf::RenderWindow &window)
 {
+#ifdef DEBUG
   window.draw(this->collisionArea);
+#endif
   window.draw(this->animatedSprite.nextSprite());
 }
 
