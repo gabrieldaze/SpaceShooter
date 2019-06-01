@@ -8,7 +8,7 @@
 
 class Mixer
 {
- public:
+public:
   bool setBGM(std::string fileName);
   bool setBGM(std::string fileName, float volume);
   bool setFireSfx(std::string fileName);
@@ -16,10 +16,11 @@ class Mixer
   bool setExplosionSfx(std::string fileName);
   bool setExplosionSfx(std::string fileName, float volume);
 
-  sf::Music& getBGMusic() { return bgMusic; }
-  sf::Sound& getFireSfx() { return fireSfx; }
-  sf::Sound& getExplosionSfx() { return explosionSfx; }
- private:
+  sf::Music &getBGMusic() { return bgMusic; }
+  sf::Sound &getFireSfx() { return fireSfx; }
+  sf::Sound &getExplosionSfx() { return explosionSfx; }
+
+private:
   sf::Music bgMusic;
   sf::Sound fireSfx;
   sf::SoundBuffer fireSfxBuffer;

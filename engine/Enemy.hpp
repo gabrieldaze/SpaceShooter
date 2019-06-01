@@ -5,13 +5,13 @@
 
 #include "Entity.hpp"
 
-class Enemy: public Entity
+class Enemy : public Entity
 {
 
- public:
-  Enemy(std::string imageFile, int xPos, int yPos): Entity(imageFile, xPos, yPos), alive(true), speed(0) {}
+public:
+  Enemy(std::string imageFile, int xPos, int yPos) : Entity(imageFile, xPos, yPos), alive(true), speed(0) {}
 
-  Enemy(std::string imageFile, int xPos, int yPos, double s): Entity(imageFile, xPos, yPos), alive(true), speed(s) {}
+  Enemy(std::string imageFile, int xPos, int yPos, double s) : Entity(imageFile, xPos, yPos), alive(true), speed(s) {}
 
   // Gets the enemy current status
   bool isAlive() { return this->alive; }
@@ -19,16 +19,12 @@ class Enemy: public Entity
   // Sets the enemy current status
   void setAlive(bool alive) { this->alive = alive; }
 
-  // Overrides the draw method
-  void draw(sf::RenderWindow& window);
-
   // Update the enemy position
   void update();
 
- private:
+private:
   bool alive;
   double speed;
-
 };
 
 #endif

@@ -21,32 +21,31 @@
 #include "engine/Projectile.cpp"
 #include "engine/Enemy.cpp"
 #include "engine/Mixer.cpp"
+#include "engine/AnimatedSprite.cpp"
+#include "engine/Animation.cpp"
+#include "engine/SpriteFrame.cpp"
 
 Projectile* createProjectile(std::string imageFile, int x, int y)
 {
   Projectile* p = new Projectile(imageFile, x, y);
-  p->getTexture().setSmooth(false);
   return p;
 }
 
 Projectile* createProjectile(std::string imageFile, int x, int y, double speed)
 {
   Projectile* p = new Projectile(imageFile, x, y, speed);
-  p->getTexture().setSmooth(false);
   return p;
 }
 
 Enemy* createEnemy(std::string imageFile, int x, int y)
 {
   Enemy* e = new Enemy(imageFile, x, y);
-  e->getTexture().setSmooth(false);
   return e;
 }
 
 Enemy* createEnemy(std::string imageFile, int x, int y, double speed)
 {
   Enemy* e = new Enemy(imageFile, x, y, speed);
-  e->getTexture().setSmooth(false);
   return e;
 }
 
@@ -104,16 +103,27 @@ int main()
 
   // Starts playing the background music
   mixer.getBGMusic().play();
-  
+
+  std::vector<SpriteFrame> spriteList;
+  spriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/spaceship.png", 120));
+  spriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/enemy.png", 60));
+  spriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/spaceship.png", 120));
+  spriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/enemy.png", 60));
+  spriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/spaceship.png", 120));
+  spriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/enemy.png", 60));
+  spriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/spaceship.png", 120));
+  spriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/enemy.png", 60));
+
   // Creates new player object
-  Player player(CURRENT_DIR + "/assets/sprite/spaceship.png", 0, 0);
+  // Player player(CURRENT_DIR + "/assets/sprite/spaceship.png", 0, 0);
+  Player player(spriteList, 0, 0);
 
   // Sets sprite smoothness and scale
-  player.getTexture().setSmooth(false);
-  player.getSprite().setScale(sf::Vector2f(0.5f, 0.5f));
-  
+  // player.getTexture().setSmooth(false);
+  // player.getSprite().setScale(sf::Vector2f(0.5f, 0.5f));
+
   // Sets player position to center of the screen
-  player.setPosition(WIDTH / 2 - player.width / 4, 
+  player.setPosition(WIDTH / 2 - player.width / 4,
                      HEIGHT / 2 - player.height / 4);
 
   // Starts the randomizer
@@ -133,16 +143,16 @@ int main()
         if (event.key.code == sf::Keyboard::Up) UP_KEY = true;
         if (event.key.code == sf::Keyboard::Down) DOWN_KEY = true;
         if (event.key.code == sf::Keyboard::Left) LEFT_KEY = true;
-        if (event.key.code == sf::Keyboard::Right) RIGHT_KEY = true; 
+        if (event.key.code == sf::Keyboard::Right) RIGHT_KEY = true;
       }
 
       // Check if directional key is released
       if (event.type == sf::Event::KeyReleased) {
-        if (event.key.code == sf::Keyboard::Up) UP_KEY = false; 
-        if (event.key.code == sf::Keyboard::Down) DOWN_KEY = false; 
-        if (event.key.code == sf::Keyboard::Left) LEFT_KEY = false; 
-        if (event.key.code == sf::Keyboard::Right) RIGHT_KEY = false; 
-        if (event.key.code == sf::Keyboard::Space) { 
+        if (event.key.code == sf::Keyboard::Up) UP_KEY = false;
+        if (event.key.code == sf::Keyboard::Down) DOWN_KEY = false;
+        if (event.key.code == sf::Keyboard::Left) LEFT_KEY = false;
+        if (event.key.code == sf::Keyboard::Right) RIGHT_KEY = false;
+        if (event.key.code == sf::Keyboard::Space) {
           projectiles.push_back(createProjectile(CURRENT_DIR + "/assets/sprite/projectile.png",
                                                  player.position.x + player.width / 4,
                                                  player.position.y, 3));
@@ -189,13 +199,13 @@ int main()
       FRAME_COUNTER = 0;
       int xPos = (rand() % (WIDTH - 100)) + 50;
       int yPos = 20;
-      std::cout << "Spawning enemy at xPos: " << xPos << std::endl;
-      if (xPos < 50 || xPos > 750) std::cout << "Spawning off the limits at: " << xPos << std::endl;
-      enemies.push_back(createEnemy(CURRENT_DIR + "/assets/sprite/enemy.png", xPos, yPos, 1));
+      // std::cout << "Spawning enemy at xPos: " << xPos << std::endl;
+      // if (xPos < 50 || xPos > 750) std::cout << "Spawning off the limits at: " << xPos << std::endl;
+      // enemies.push_back(createEnemy(CURRENT_DIR + "/assets/sprite/enemy.png", xPos, yPos, 1));
     } else {
       FRAME_COUNTER += 1;
     }
-    
+
     // Iterate through the projectile vector and draw each projectile
     for (int i = 0; i < projectiles.size(); i++) {
       projectiles[i]->update();

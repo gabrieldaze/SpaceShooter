@@ -3,11 +3,12 @@
 
 #include "Entity.hpp"
 
-class Player: public Entity
+class Player : public Entity
 {
- public:
-  // Expects a path to an image and both x and y positions
-  Player(std::string imageFile, int x, int y): Entity(imageFile, x, y) {}
+public:
+  Player(std::string imageFile, int x, int y) : Entity(imageFile, x, y) {}
+  Player(std::vector<std::string> imageFiles, int x, int y) : Entity(imageFiles, x, y) {}
+  Player(std::vector<SpriteFrame> spriteList, int x, int y) : Entity(spriteList, x, y) {}
 
   // Gets the current player status
   bool isAlive();
@@ -15,7 +16,7 @@ class Player: public Entity
   // Sets the current player status
   void setAlive(bool alive);
 
- private:
+private:
   // Player alive status
   bool alive;
 };
