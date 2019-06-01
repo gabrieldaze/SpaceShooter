@@ -30,7 +30,7 @@ public:
   double width, height;
 
   // Sets the entity position using X and Y
-  void setPosition(int x, int y);
+  void setPosition(double x, double y);
 
   // Sets the entity position using the Position class
   void setPosition(Position p);
@@ -38,8 +38,17 @@ public:
   // Gets the entity position
   Position getPosition() { return this->position; }
 
+  // Gets the entity center position
+  Position getCenter();
+
+  // Gets the center of xPos
+  double getXCenter() { return this->position.x + this->width / 2; }
+
+  // Gets the center of yPos
+  double getYCenter() { return this->position.y + this->height / 2; }
+
   // Sets the entity local bound
-  void setSize(int width, int height);
+  void setSize(double width, double height);
 
   // Gets the entity local bound
   sf::FloatRect getSize() { return this->animatedSprite.currentSprite().getLocalBounds(); }
@@ -56,6 +65,7 @@ public:
 protected:
   AnimatedSprite animatedSprite;
   float spriteScale;
+  sf::RectangleShape collisionArea;
 };
 
 #endif

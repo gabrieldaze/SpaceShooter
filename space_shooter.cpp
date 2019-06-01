@@ -46,7 +46,7 @@ Enemy* createEnemy(std::vector<SpriteFrame> spriteList, int x, int y)
 
 Enemy* createEnemy(std::vector<SpriteFrame> spriteList, int x, int y, double speed)
 {
-  Enemy* e = new Enemy(spriteList, x, y, speed);
+  Enemy* e = new Enemy(spriteList, x, y, speed, 2.0f);
   return e;
 }
 
@@ -118,7 +118,7 @@ int main()
   if (!mixer.setBGM(CURRENT_DIR + "/assets/bgm/astrobdsm.ogg", 30.0f)) window.close();
 
   // Starts playing the background music
-  mixer.getBGMusic().play();
+  // mixer.getBGMusic().play();
 
   std::vector<SpriteFrame> playerSpriteList;
   playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player00.png", 5));
@@ -198,9 +198,11 @@ int main()
         if (event.key.code == sf::Keyboard::Left) LEFT_KEY = false;
         if (event.key.code == sf::Keyboard::Right) RIGHT_KEY = false;
         if (event.key.code == sf::Keyboard::Space) {
-          projectiles.push_back(createProjectile(regularProjectileSpriteList,
-                                                 player.position.x + player.width / 4,
-                                                 player.position.y, 3));
+          projectiles.push_back(createProjectile(
+            regularProjectileSpriteList,
+            player.getCenter().x - regularProjectileSpriteList[0].getTexture().getSize().x / 2,
+            player.getCenter().y - regularProjectileSpriteList[0].getTexture().getSize().y, 3
+          ));
           //fireSfx.play();
           mixer.getFireSfx().play();
         }
