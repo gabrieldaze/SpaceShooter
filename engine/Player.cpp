@@ -14,6 +14,7 @@ void Player::setAlive(bool alive)
 
 void Player::update(bool UP_KEY, bool DOWN_KEY, bool LEFT_KEY, bool RIGHT_KEY, bool SPACE_BAR_KEY)
 {
+  if (!this->isAlive()) this->reset();
   // Calculate both X and Y speed
   if (UP_KEY) { ySpeed = ySpeed <= -maxSpeed ? ySpeed : ySpeed - acceleration;  }
   if (DOWN_KEY) { ySpeed = ySpeed >= maxSpeed ? ySpeed : ySpeed + acceleration; }
@@ -63,6 +64,11 @@ void Player::spawnProjectile(double projectileSpeed, double projectileScale)
   this->mixer->getFireSfx().play();
 }
 
+void Player::setWindow(sf::RenderWindow* window)
+{
+  this->window = window;
+}
+
 void Player::setMixer(Mixer* mixer)
 {
   this->mixer = mixer;
@@ -71,4 +77,16 @@ void Player::setMixer(Mixer* mixer)
 void Player::setProjectileList(std::vector<Projectile*> *projectileList)
 {
   this->projectileList = projectileList;
+}
+
+void Player::reset()
+{
+  this->setAlive(true);
+  if (this->window != nullptr) {
+    const double xPos = this->window->getSize().x / 2 - this->width / 2;
+    const double yPos = this->window->getSize().y / 2 + this->height * 4;
+    this->setPosition(xPos, yPos);
+    this->xSpeed = 0;
+    this->ySpeed = 0;
+  }
 }

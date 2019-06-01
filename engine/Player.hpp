@@ -9,12 +9,12 @@
 class Player : public Entity
 {
 public:
-  Player(std::string imageFile, int x, int y, float spriteScale = 1) : Entity(imageFile, x, y, spriteScale), xSpeed(0), ySpeed(0) {}
-  Player(std::vector<std::string> imageFiles, int x, int y, float spriteScale = 1) : Entity(imageFiles, x, y, spriteScale) {}
-  Player(std::vector<SpriteFrame> spriteList, int x, int y, float spriteScale = 1) : Entity(spriteList, x, y, spriteScale) {}
+  Player(std::string imageFile, int x, int y, float spriteScale = 1) : Entity(imageFile, x, y, spriteScale), alive(true), xSpeed(0), ySpeed(0) {}
+  Player(std::vector<std::string> imageFiles, int x, int y, float spriteScale = 1) : Entity(imageFiles, x, y, spriteScale), alive(true), xSpeed(0), ySpeed(0) {}
+  Player(std::vector<SpriteFrame> spriteList, int x, int y, float spriteScale = 1) : Entity(spriteList, x, y, spriteScale), alive(true), xSpeed(0), ySpeed(0) {}
 
   // Player acceleration factor
-  const double acceleration = 0.2f;
+  const double acceleration = 0.25f;
 
   // Player max speed
   const double maxSpeed = 10.0f;
@@ -34,11 +34,17 @@ public:
   // Spawns projectile
   void spawnProjectile(double projectileSpeed, double projectileScale);
 
+  // Sets the player's window reference
+  void setWindow(sf::RenderWindow* window);
+
   // Sets the player's mixer reference
   void setMixer(Mixer* mixer);
 
   // Set's the player's projectile list reference
   void setProjectileList(std::vector<Projectile*> *projectileList);
+
+  // Reset the player
+  void reset();
 
 private:
   // Player alive status
@@ -52,6 +58,9 @@ private:
 
   // Player movement control variables
   bool moveUp, moveDown, moveLeft, moveRight;
+
+  // Player's window reference
+  sf::RenderWindow* window;
 
   // Player's mixer reference
   Mixer* mixer;

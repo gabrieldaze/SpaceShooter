@@ -79,15 +79,18 @@ int main()
   if (!mixer.setBGM(CURRENT_DIR + "/assets/bgm/astrobdsm.ogg", 30.0f)) window.close();
 
   // Starts playing the background music
-  mixer.getBGMusic().play();
+  // mixer.getBGMusic().play();
 
   // Creates new player object
   Player player(playerSpriteList, 0, 0, 1.5f);
 
-  // Sets player position to center of the screen
-  player.setPosition(WIDTH / 2 - player.width / 4,
-                     HEIGHT / 2 + WIDTH / 4 - player.height / 4);
+  // Sets the player's window reference
+  player.setWindow(&window);
 
+  // Sets player position to the initial position
+  player.reset();
+
+  // Sets the player's mixer reference
   player.setMixer(&mixer);
 
   player.setProjectileList(&projectiles);
@@ -111,7 +114,7 @@ int main()
     window.draw(background);
 
     // Draw the player
-    player.draw(window);
+    if (player.isAlive()) player.draw(window);
 
     // Check if the frame counter has reached the enemy delay
     // before spawning an enemy
@@ -132,12 +135,9 @@ int main()
         if (projectiles[i]->isColiding(*enemies[j])) {
           projectiles[i]->setAlive(false);
           enemies[j]->setAlive(false);
-          explosions.push_back(createExplosion(
-            explosionSpriteList,
-            enemies[j]->getCenter().x - explosionSpriteList[0].getTexture().getSize().x / 2,
-            enemies[j]->getCenter().y - explosionSpriteList[0].getTexture().getSize().y / 2,
-            2.0f
-          ));
+          const double xPos = enemies[j]->getCenter().x - explosionSpriteList[0].getTexture().getSize().x / 2;
+          const double yPos = enemies[j]->getCenter().y - explosionSpriteList[0].getTexture().getSize().y / 2;
+          createExplosion(explosions, explosionSpriteList, xPos, yPos, 2.0f);
           mixer.getExplosionSfx().play();
         }
       }
@@ -155,6 +155,13 @@ int main()
       if (enemies[i]->position.y >= HEIGHT - enemies[i]->getSize().height) enemies[i]->setAlive(false);
       if (enemies[i]->isAlive()) {
         enemies[i]->draw(window);
+        if (enemies[i]->isColiding(player) && player.isAlive()) {
+          player.setAlive(false);
+          const double xPos = player.getCenter().x - explosionSpriteList[0].getTexture().getSize().x / 2;
+          const double yPos = player.getCenter().y - explosionSpriteList[0].getTexture().getSize().y / 2;
+          createExplosion(explosions, explosionSpriteList, xPos, yPos, 3.0f);
+          mixer.getExplosionSfx().play();
+        }
       } else {
         enemies[i] = nullptr;
         enemies.erase(enemies.begin() + i);

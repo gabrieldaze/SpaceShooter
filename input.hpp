@@ -25,13 +25,13 @@ void handleInput(sf::RenderWindow &window)
     // Check if directional key is pressed
     if (event.type == sf::Event::KeyPressed)
     {
-      if (event.key.code == sf::Keyboard::Up)
+      if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::W)
         UP_KEY = true;
-      if (event.key.code == sf::Keyboard::Down)
+      if (event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::S)
         DOWN_KEY = true;
-      if (event.key.code == sf::Keyboard::Left)
+      if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::A)
         LEFT_KEY = true;
-      if (event.key.code == sf::Keyboard::Right)
+      if (event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::D)
         RIGHT_KEY = true;
       if (event.key.code == sf::Keyboard::Space)
         SPACE_BAR_KEY = true;
@@ -40,13 +40,13 @@ void handleInput(sf::RenderWindow &window)
     // Check if directional key is released
     if (event.type == sf::Event::KeyReleased)
     {
-      if (event.key.code == sf::Keyboard::Up)
+      if (event.key.code == sf::Keyboard::Up || event.key.code == sf::Keyboard::W)
         UP_KEY = false;
-      if (event.key.code == sf::Keyboard::Down)
+      if (event.key.code == sf::Keyboard::Down || event.key.code == sf::Keyboard::S)
         DOWN_KEY = false;
-      if (event.key.code == sf::Keyboard::Left)
+      if (event.key.code == sf::Keyboard::Left || event.key.code == sf::Keyboard::A)
         LEFT_KEY = false;
-      if (event.key.code == sf::Keyboard::Right)
+      if (event.key.code == sf::Keyboard::Right || event.key.code == sf::Keyboard::D)
         RIGHT_KEY = false;
       if (event.key.code == sf::Keyboard::Space)
         SPACE_BAR_KEY = false;

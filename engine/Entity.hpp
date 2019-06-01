@@ -3,6 +3,8 @@
 #ifndef entity_hpp
 #define entity_hpp
 
+// #define DEBUG 1
+
 #include <SFML/Graphics.hpp>
 #include "AnimatedSprite.hpp"
 

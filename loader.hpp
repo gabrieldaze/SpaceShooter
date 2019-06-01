@@ -56,10 +56,16 @@ Enemy* createEnemy(int randomSprite, int x, int y, double speed, float spriteSca
   return e;
 }
 
-TemporaryEntity* createExplosion(std::vector<SpriteFrame> spriteList, int x, int y, float spriteScale)
+// TemporaryEntity* createExplosion(std::vector<SpriteFrame> spriteList, int x, int y, float spriteScale)
+// {
+//   TemporaryEntity* e = new TemporaryEntity(spriteList, x, y, spriteScale);
+//   return e;
+// }
+
+void createExplosion(std::vector<TemporaryEntity*>& explosions, std::vector<SpriteFrame> &spriteList, double x, double y, float spriteScale)
 {
   TemporaryEntity* e = new TemporaryEntity(spriteList, x, y, spriteScale);
-  return e;
+  explosions.push_back(e);
 }
 
 int initialize()
