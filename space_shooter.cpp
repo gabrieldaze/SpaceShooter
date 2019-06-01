@@ -26,18 +26,6 @@
 #include "engine/Animation.cpp"
 #include "engine/SpriteFrame.cpp"
 
-Projectile* createProjectile(std::string imageFile, int x, int y)
-{
-  Projectile* p = new Projectile(imageFile, x, y);
-  return p;
-}
-
-Projectile* createProjectile(std::string imageFile, int x, int y, double speed)
-{
-  Projectile* p = new Projectile(imageFile, x, y, speed);
-  return p;
-}
-
 Projectile* createProjectile(std::vector<SpriteFrame> spriteList, int x, int y)
 {
   Projectile* p = new Projectile(spriteList, x, y);
@@ -48,18 +36,6 @@ Projectile* createProjectile(std::vector<SpriteFrame> spriteList, int x, int y, 
 {
   Projectile* p = new Projectile(spriteList, x, y, speed);
   return p;
-}
-
-Enemy* createEnemy(std::string imageFile, int x, int y)
-{
-  Enemy* e = new Enemy(imageFile, x, y);
-  return e;
-}
-
-Enemy* createEnemy(std::string imageFile, int x, int y, double speed)
-{
-  Enemy* e = new Enemy(imageFile, x, y, speed);
-  return e;
 }
 
 Enemy* createEnemy(std::vector<SpriteFrame> spriteList, int x, int y)
@@ -77,6 +53,12 @@ Enemy* createEnemy(std::vector<SpriteFrame> spriteList, int x, int y, double spe
 TemporaryEntity* createExplosion(std::vector<SpriteFrame> spriteList, int x, int y)
 {
   TemporaryEntity* e = new TemporaryEntity(spriteList, x, y);
+  return e;
+}
+
+TemporaryEntity* createExplosion(std::vector<SpriteFrame> spriteList, int x, int y, float spriteScale)
+{
+  TemporaryEntity* e = new TemporaryEntity(spriteList, x, y, spriteScale);
   return e;
 }
 
@@ -276,7 +258,7 @@ int main()
         if (projectiles[i]->isColiding(*enemies[j])) {
           projectiles[i]->setAlive(false);
           enemies[j]->setAlive(false);
-          explosions.push_back(createExplosion(explosionSpriteList, projectiles[i]->position.x, projectiles[i]->position.y));
+          explosions.push_back(createExplosion(explosionSpriteList, projectiles[i]->position.x, projectiles[i]->position.y, 2.0f));
           mixer.getExplosionSfx().play();
         }
       }

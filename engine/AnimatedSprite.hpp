@@ -8,11 +8,11 @@
 class AnimatedSprite
 {
 public:
-  AnimatedSprite() : currentSpriteIndex(0), currentSpriteFrame(0) {}
-  AnimatedSprite(Animation a) : animation(a), currentSpriteIndex(0), currentSpriteFrame(0)
+  AnimatedSprite() : currentSpriteIndex(0), currentSpriteFrame(0), spriteScale(1) {}
+  AnimatedSprite(Animation a, float ss = 1) : animation(a), currentSpriteIndex(0), currentSpriteFrame(0), spriteScale(ss)
   {
     this->sprite.setTexture(this->animation.getFrames()[0].getTexture());
-    // this->sprite.setScale(sf::Vector2f(2.0f, 2.0f));
+    this->sprite.setScale(sf::Vector2f(spriteScale, spriteScale));
   }
 
   // Gets the reference for the animation
@@ -33,6 +33,7 @@ public:
 private:
   Animation animation;
   sf::Sprite sprite;
+  float spriteScale;
   int currentSpriteIndex;
   int currentSpriteFrame;
 };

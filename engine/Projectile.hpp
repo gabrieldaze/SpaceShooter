@@ -8,10 +8,10 @@
 class Projectile : public Entity
 {
 public:
-  Projectile(std::string imageFile, int x, int y) : Entity(imageFile, x, y), alive(true), speed(0) {}
-  Projectile(std::string imageFile, int x, int y, double s) : Entity(imageFile, x, y), alive(true), speed(s) {}
-  Projectile(std::vector<SpriteFrame> spriteList, int x, int y) : Entity(spriteList, x, y), alive(true), speed(0) {}
-  Projectile(std::vector<SpriteFrame> spriteList, int x, int y, double s) : Entity(spriteList, x, y), alive(true), speed(s) {}
+  Projectile(std::string imageFile, int x, int y, float spriteScale = 1) : Entity(imageFile, x, y, spriteScale), alive(true), speed(0) {}
+  Projectile(std::string imageFile, int x, int y, double s, float spriteScale = 1) : Entity(imageFile, x, y, spriteScale), alive(true), speed(s) {}
+  Projectile(std::vector<SpriteFrame> spriteList, int x, int y, float spriteScale = 1) : Entity(spriteList, x, y, spriteScale), alive(true), speed(0) {}
+  Projectile(std::vector<SpriteFrame> spriteList, int x, int y, double s, float spriteScale = 1) : Entity(spriteList, x, y, spriteScale), alive(true), speed(s) {}
 
   // Gets the current projectile status
   bool isAlive();

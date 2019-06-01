@@ -6,9 +6,9 @@
 class Player : public Entity
 {
 public:
-  Player(std::string imageFile, int x, int y) : Entity(imageFile, x, y) {}
-  Player(std::vector<std::string> imageFiles, int x, int y) : Entity(imageFiles, x, y) {}
-  Player(std::vector<SpriteFrame> spriteList, int x, int y) : Entity(spriteList, x, y) {}
+  Player(std::string imageFile, int x, int y, float spriteScale = 1) : Entity(imageFile, x, y, spriteScale) {}
+  Player(std::vector<std::string> imageFiles, int x, int y, float spriteScale = 1) : Entity(imageFiles, x, y, spriteScale) {}
+  Player(std::vector<SpriteFrame> spriteList, int x, int y, float spriteScale = 1) : Entity(spriteList, x, y, spriteScale) {}
 
   // Gets the current player status
   bool isAlive();

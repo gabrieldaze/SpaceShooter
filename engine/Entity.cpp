@@ -3,38 +3,38 @@
 #include "Entity.hpp"
 #include <iostream>
 
-Entity::Entity(Animation animation, int xPos, int yPos)
+Entity::Entity(Animation animation, double xPos, double yPos, float scale)
 {
-  this->animatedSprite = AnimatedSprite(animation);
+  this->animatedSprite = AnimatedSprite(animation, scale);
   sf::FloatRect rect = this->animatedSprite.currentSprite().getLocalBounds();
   this->setSize((int)rect.width, (int)rect.height);
   this->setPosition(xPos, yPos);
 };
 
-Entity::Entity(std::string imageFile, int xPos, int yPos)
+Entity::Entity(std::string imageFile, double xPos, double yPos, float scale)
 {
   std::vector<std::string> imageFiles;
   imageFiles.push_back(imageFile);
   Animation animation("default", imageFiles);
-  this->animatedSprite = AnimatedSprite(animation);
+  this->animatedSprite = AnimatedSprite(animation, scale);
   sf::FloatRect rect = this->animatedSprite.currentSprite().getLocalBounds();
   this->setSize((int)rect.width, (int)rect.height);
   this->setPosition(xPos, yPos);
 }
 
-Entity::Entity(std::vector<std::string> imageFiles, int xPos, int yPos)
+Entity::Entity(std::vector<std::string> imageFiles, double xPos, double yPos, float scale)
 {
   Animation animation("default", imageFiles);
-  this->animatedSprite = AnimatedSprite(animation);
+  this->animatedSprite = AnimatedSprite(animation, scale);
   sf::FloatRect rect = this->animatedSprite.currentSprite().getLocalBounds();
   this->setSize((int)rect.width, (int)rect.height);
   this->setPosition(xPos, yPos);
 }
 
-Entity::Entity(std::vector<SpriteFrame> spriteList, int xPos, int yPos)
+Entity::Entity(std::vector<SpriteFrame> spriteList, double xPos, double yPos, float scale)
 {
   Animation animation("default", spriteList);
-  this->animatedSprite = AnimatedSprite(animation);
+  this->animatedSprite = AnimatedSprite(animation, scale);
   sf::FloatRect rect = this->animatedSprite.currentSprite().getLocalBounds();
   this->setSize((int)rect.width, (int)rect.height);
   this->setPosition(xPos, yPos);
