@@ -33,12 +33,6 @@ int main()
   const int ENEMY_DELAY = 120;
   int FRAME_COUNTER = 0;
 
-  // Player movement values
-  double ySpeed = 0;
-  double xSpeed = 0;
-  double acceleration = 0.2f;
-  double maxSpeed = 10;
-
   // Projectile spawn delay
   const int PROJECTILE_DELAY = 10;
   int PROJECTILE_FRAME_COUNTER = 0;
@@ -54,15 +48,16 @@ int main()
 
   // Background texture and shape
   sf::Texture backgroundTexture;
-  sf::RectangleShape background;
+  sf::Sprite background;
   if (backgroundTexture.loadFromFile(CURRENT_DIR + "/assets/sprite/background/desert-background.png")) {
-    background.setTexture(&backgroundTexture);
-    background.setSize(sf::Vector2f(WIDTH, HEIGHT));
+    background.setTexture(backgroundTexture);
+    // background.setSize(sf::Vector2f(WIDTH, HEIGHT));
     background.setTextureRect(sf::IntRect(0, 0, WIDTH, HEIGHT));
     backgroundTexture.setRepeated(true);
     const double xScale = (WIDTH + WIDTH * 0.01f) / backgroundTexture.getSize().x;
     const double yScale = HEIGHT / backgroundTexture.getSize().y;
     background.setScale(sf::Vector2f(xScale, yScale));
+
   }
 
   // Creates the main window
@@ -93,6 +88,10 @@ int main()
   player.setPosition(WIDTH / 2 - player.width / 4,
                      HEIGHT / 2 + WIDTH / 4 - player.height / 4);
 
+  player.setMixer(&mixer);
+
+  player.setProjectileList(&projectiles);
+
   // Starts the randomizer
   srand(time(0));
 
@@ -102,49 +101,8 @@ int main()
     // Process events
     handleInput(window);
 
-    // Calculate both X and Y speed
-    if (UP_KEY) { ySpeed = ySpeed <= -maxSpeed ? ySpeed : ySpeed - acceleration;  }
-    if (DOWN_KEY) { ySpeed = ySpeed >= maxSpeed ? ySpeed : ySpeed + acceleration; }
-    if (LEFT_KEY) { xSpeed = xSpeed <= -maxSpeed ? xSpeed : xSpeed - acceleration; }
-    if (RIGHT_KEY) { xSpeed = xSpeed >= maxSpeed ? xSpeed : xSpeed + acceleration; }
-
-    // Add friction to movement on Y axis
-    if (!UP_KEY && !DOWN_KEY) {
-      if (ySpeed != 0) {
-        if (ySpeed < 0) ySpeed += acceleration;
-        if (ySpeed > 0) ySpeed -= acceleration;
-      }
-    }
-
-    // Add friction to movement on X axis
-    if (!LEFT_KEY && !RIGHT_KEY) {
-      if (xSpeed != 0) {
-        if (xSpeed < 0) xSpeed += acceleration;
-        if (xSpeed > 0) xSpeed -= acceleration;
-      }
-    }
-
-    if (SPACE_BAR_KEY) {
-      if (PROJECTILE_FRAME_COUNTER >= PROJECTILE_DELAY) {
-        PROJECTILE_FRAME_COUNTER = 0;
-        const double PROJECTILE_SPEED = 3.0f;
-        const double PROJECTILE_SCALE = 1.5f;
-        projectiles.push_back(createProjectile(
-          regularProjectileSpriteList,
-          player.getCenter().x - regularProjectileSpriteList[0].getTexture().getSize().x * PROJECTILE_SCALE / 2,
-          player.getCenter().y - regularProjectileSpriteList[0].getTexture().getSize().y * PROJECTILE_SCALE,
-          PROJECTILE_SPEED,
-          PROJECTILE_SCALE));
-        mixer.getFireSfx().play();
-      } else {
-        PROJECTILE_FRAME_COUNTER += 1;
-      }
-    } else {
-      PROJECTILE_FRAME_COUNTER = PROJECTILE_DELAY;
-    }
-
-    // Move the player using both current x velocity and y velocity
-    player.setPosition(player.position.x + xSpeed, player.position.y + ySpeed);
+    // Update the player status and position
+    player.update(UP_KEY, DOWN_KEY, LEFT_KEY, RIGHT_KEY, SPACE_BAR_KEY);
 
     // Clear screen
     window.clear();
