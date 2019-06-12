@@ -49,13 +49,13 @@ int main()
   // Background texture and shape
   sf::Texture backgroundTexture;
   sf::Sprite background;
-  if (backgroundTexture.loadFromFile(CURRENT_DIR + "/assets/sprite/background/desert-background.png")) {
+  if (backgroundTexture.loadFromFile("assets/sprite/background/space-background.png")) {
     background.setTexture(backgroundTexture);
     // background.setSize(sf::Vector2f(WIDTH, HEIGHT));
     background.setTextureRect(sf::IntRect(0, 0, WIDTH, HEIGHT));
     backgroundTexture.setRepeated(true);
     const double xScale = (WIDTH + WIDTH * 0.01f) / backgroundTexture.getSize().x;
-    const double yScale = HEIGHT / backgroundTexture.getSize().y;
+    const double yScale = (HEIGHT + HEIGHT * 0.01f) / backgroundTexture.getSize().y;
     background.setScale(sf::Vector2f(xScale, yScale));
 
   }
@@ -70,16 +70,16 @@ int main()
   Mixer mixer;
 
   // Setting the fire sound effect
-  if (!mixer.setFireSfx(CURRENT_DIR + "/assets/sfx/Laser_Shoot.wav", 50.0f)) window.close();
+  if (!mixer.setFireSfx("assets/sfx/Laser_Shoot.wav", 50.0f)) window.close();
 
   // Setting the explosion sound effect
-  if (!mixer.setExplosionSfx(CURRENT_DIR + "/assets/sfx/Explosion.wav", 50.0f)) window.close();
+  if (!mixer.setExplosionSfx("assets/sfx/Explosion.wav", 50.0f)) window.close();
 
   // Setting the background music
-  if (!mixer.setBGM(CURRENT_DIR + "/assets/bgm/astrobdsm.ogg", 30.0f)) window.close();
+  if (!mixer.setBGM("assets/bgm/astrobdsm.ogg", 30.0f)) window.close();
 
   // Starts playing the background music
-  // mixer.getBGMusic().play();
+  mixer.getBGMusic().play();
 
   // Creates new player object
   Player player(playerSpriteList, 0, 0, 1.5f);

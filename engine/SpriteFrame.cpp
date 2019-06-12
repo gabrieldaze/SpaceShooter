@@ -1,6 +1,7 @@
 // SpriteFrame_cpp
 
 #include "SpriteFrame.hpp"
+#include <stdexcept>
 
 SpriteFrame::SpriteFrame(std::string imageFile, int frameCount)
 {
@@ -11,6 +12,6 @@ SpriteFrame::SpriteFrame(std::string imageFile, int frameCount)
   }
   else
   {
-    throw "Failed to load texture";
+    throw std::runtime_error(imageFile);
   }
 }

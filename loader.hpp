@@ -73,37 +73,42 @@ int initialize()
   GetCurrentDir(currentPath, sizeof(currentPath));
   CURRENT_DIR = currentPath;
 
-  playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player00.png", 5));
-  playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player01.png", 5));
-  playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player02.png", 5));
-  playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player03.png", 5));
-  playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player04.png", 5));
-  playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player05.png", 5));
-  playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player06.png", 5));
-  playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player07.png", 5));
-  playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player08.png", 5));
-  playerSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/player/player09.png", 5));
+  // playerSpriteList.push_back(SpriteFrame("./assets/sprite/player/player_ship01.png", 5));
+  // playerSpriteList.push_back(SpriteFrame("./assets/sprite/player/player_ship02.png", 5));
+  // playerSpriteList.push_back(SpriteFrame("./assets/sprite/player/player_ship03.png", 5));
+  // playerSpriteList.push_back(SpriteFrame("./assets/sprite/player/player_ship04.png", 5));
+  // playerSpriteList.push_back(SpriteFrame("./assets/sprite/player/player_ship05.png", 5));
+  playerSpriteList.push_back(SpriteFrame("./assets/sprite/player/player_ship_alt2_01.png", 5));
+  playerSpriteList.push_back(SpriteFrame("./assets/sprite/player/player_ship_alt2_02.png", 5));
+  playerSpriteList.push_back(SpriteFrame("./assets/sprite/player/player_ship_alt2_03.png", 5));
+  playerSpriteList.push_back(SpriteFrame("./assets/sprite/player/player_ship_alt2_04.png", 5));
 
-  enemySmallSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/enemy/enemySmall00.png", 5));
-  enemySmallSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/enemy/enemySmall01.png", 5));
+  enemySmallSpriteList.push_back(SpriteFrame("./assets/sprite/enemy/enemy_big01.png", 5));
+  enemySmallSpriteList.push_back(SpriteFrame("./assets/sprite/enemy/enemy_big02.png", 5));
+  enemySmallSpriteList.push_back(SpriteFrame("./assets/sprite/enemy/enemy_big03.png", 5));
+  enemySmallSpriteList.push_back(SpriteFrame("./assets/sprite/enemy/enemy_big04.png", 5));
 
-  enemyMediumSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/enemy/enemyMedium00.png", 5));
-  enemyMediumSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/enemy/enemyMedium01.png", 5));
+  enemyMediumSpriteList.push_back(SpriteFrame("./assets/sprite/enemy/enemy_big01.png", 5));
+  enemyMediumSpriteList.push_back(SpriteFrame("./assets/sprite/enemy/enemy_big02.png", 5));
+  enemyMediumSpriteList.push_back(SpriteFrame("./assets/sprite/enemy/enemy_big03.png", 5));
+  enemyMediumSpriteList.push_back(SpriteFrame("./assets/sprite/enemy/enemy_big04.png", 5));
 
-  enemyBigSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/enemy/enemyBig00.png", 5));
-  enemyBigSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/enemy/enemyBig01.png", 5));
+  enemyBigSpriteList.push_back(SpriteFrame("./assets/sprite/enemy/enemy_big01.png", 5));
+  enemyBigSpriteList.push_back(SpriteFrame("./assets/sprite/enemy/enemy_big02.png", 5));
+  enemyBigSpriteList.push_back(SpriteFrame("./assets/sprite/enemy/enemy_big03.png", 5));
+  enemyBigSpriteList.push_back(SpriteFrame("./assets/sprite/enemy/enemy_big04.png", 5));
 
-  regularProjectileSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/projectile/regular00.png", 5));
-  regularProjectileSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/projectile/regular01.png", 5));
+  regularProjectileSpriteList.push_back(SpriteFrame("./assets/sprite/projectile/regular00.png", 5));
+  regularProjectileSpriteList.push_back(SpriteFrame("./assets/sprite/projectile/regular01.png", 5));
 
-  roundedProjectileSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/projectile/rounded00.png", 5));
-  roundedProjectileSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/projectile/rounded01.png", 5));
+  roundedProjectileSpriteList.push_back(SpriteFrame("./assets/sprite/projectile/rounded00.png", 5));
+  roundedProjectileSpriteList.push_back(SpriteFrame("./assets/sprite/projectile/rounded01.png", 5));
 
-  explosionSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/explosion/explosion00.png", 3));
-  explosionSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/explosion/explosion01.png", 3));
-  explosionSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/explosion/explosion02.png", 3));
-  explosionSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/explosion/explosion03.png", 3));
-  explosionSpriteList.push_back(SpriteFrame(CURRENT_DIR + "/assets/sprite/explosion/explosion04.png", 3));
+  explosionSpriteList.push_back(SpriteFrame("./assets/sprite/explosion/explosion00.png", 3));
+  explosionSpriteList.push_back(SpriteFrame("./assets/sprite/explosion/explosion01.png", 3));
+  explosionSpriteList.push_back(SpriteFrame("./assets/sprite/explosion/explosion02.png", 3));
+  explosionSpriteList.push_back(SpriteFrame("./assets/sprite/explosion/explosion03.png", 3));
+  explosionSpriteList.push_back(SpriteFrame("./assets/sprite/explosion/explosion04.png", 3));
 
   return 0;
 }
