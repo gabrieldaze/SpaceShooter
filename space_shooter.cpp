@@ -76,10 +76,10 @@ int main()
   if (!mixer.setExplosionSfx("assets/sfx/Explosion.wav", 50.0f)) window.close();
 
   // Setting the background music
-  if (!mixer.setBGM("assets/bgm/astrobdsm.ogg", 30.0f)) window.close();
+  // if (!mixer.setBGM("assets/bgm/astrobdsm.ogg", 30.0f)) window.close();
 
   // Starts playing the background music
-  mixer.getBGMusic().play();
+  // mixer.getBGMusic().play();
 
   // Creates new player object
   Player player(playerSpriteList, 0, 0, 1.5f);
@@ -132,7 +132,7 @@ int main()
     for (int i = 0; i < projectiles.size(); i++) {
       projectiles[i]->update();
       for (int j = 0; j < enemies.size(); j++) {
-        if (projectiles[i]->isColiding(*enemies[j])) {
+        if (projectiles[i]->isColliding(*enemies[j])) {
           projectiles[i]->setAlive(false);
           enemies[j]->setAlive(false);
           const double xPos = enemies[j]->getCenter().x - explosionSpriteList[0].getTexture().getSize().x / 2;
@@ -155,7 +155,7 @@ int main()
       if (enemies[i]->position.y >= HEIGHT - enemies[i]->getSize().height) enemies[i]->setAlive(false);
       if (enemies[i]->isAlive()) {
         enemies[i]->draw(window);
-        if (enemies[i]->isColiding(player) && player.isAlive()) {
+        if (enemies[i]->isColliding(player) && player.isAlive()) {
           player.setAlive(false);
           const double xPos = player.getCenter().x - explosionSpriteList[0].getTexture().getSize().x / 2;
           const double yPos = player.getCenter().y - explosionSpriteList[0].getTexture().getSize().y / 2;

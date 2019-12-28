@@ -98,7 +98,7 @@ void Entity::draw(sf::RenderWindow &window)
   window.draw(this->animatedSprite.nextSprite());
 }
 
-bool Entity::isColiding(Entity &e)
+bool Entity::isColliding(Entity &e)
 {
   const double sourceMinX = this->position.x;
   const double sourceMaxX = this->position.x + this->width;

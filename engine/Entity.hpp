@@ -3,7 +3,7 @@
 #ifndef entity_hpp
 #define entity_hpp
 
-// #define DEBUG 1
+#define DEBUG 1
 
 #include <SFML/Graphics.hpp>
 #include "AnimatedSprite.hpp"
@@ -62,7 +62,7 @@ public:
   void draw(sf::RenderWindow &window);
 
   // Checks if the entity is colliding with other entity
-  bool isColiding(Entity &e);
+  bool isColliding(Entity &e);
 
 protected:
   AnimatedSprite animatedSprite;
